@@ -1,0 +1,393 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Rafael, o Supervisor</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Figtree:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: pôster de "fã-clube" em coluna única larga, com número 6 7 gigante como assinatura. */
+:root {
+  --bg: #F3F6FB;
+  --surface: #FFFFFF;
+  --fg: #0F1A36;
+  --muted: #5A6482;
+  --line: #D6DDEC;
+  --gold: #F2B705;
+  --gold-ink: #6B4E00;
+  --eye: #1F8FD6;
+  --eye-soft: #D9EEFB;
+  --font-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1226; --surface: #131C38; --fg: #EDF1FF; --muted: #9AA6CC; --line: #26335E;
+    --gold: #FFC933; --gold-ink: #FFE49A; --eye: #5CB8F2; --eye-soft: #14304A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1226; --surface: #131C38; --fg: #EDF1FF; --muted: #9AA6CC; --line: #26335E;
+  --gold: #FFC933; --gold-ink: #FFE49A; --eye: #5CB8F2; --eye-soft: #14304A;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+.wrap { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 72px; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+:focus-visible { outline: 3px solid var(--eye); outline-offset: 3px; border-radius: 6px; }
+
+/* faixa */
+.ticker { overflow: hidden; border-block: 2px solid var(--fg); margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); background: var(--gold); color: #1A1400; }
+.ticker-track { display: flex; width: max-content; animation: slide 22s linear infinite; }
+.ticker-track span { font-family: var(--font-display); font-weight: 800; font-size: 15px; letter-spacing: 0.04em; padding: 10px 22px; white-space: nowrap; }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: 32px; align-items: center; padding-top: 48px; }
+.hero h1 { font-size: clamp(34px, 7vw, 68px); font-weight: 800; letter-spacing: -0.02em; margin-block: 16px 20px; }
+.hero h1 em { font-style: normal; background: linear-gradient(transparent 62%, var(--gold) 62%); padding-inline: 2px; }
+.hero p.lead { font-size: 18px; color: var(--muted); max-width: 52ch; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.btn { font-family: var(--font-body); font-weight: 700; font-size: 16px; border: 2px solid var(--fg); background: var(--fg); color: var(--bg); padding: 12px 20px; border-radius: 10px; cursor: pointer; min-height: 48px; }
+.btn.alt { background: transparent; color: var(--fg); }
+.btn:active { transform: translateY(1px); }
+.portrait { background: var(--eye-soft); border: 2px solid var(--fg); border-radius: 24px; padding: 18px; position: relative; }
+.portrait svg { width: 100%; height: auto; display: block; }
+.portrait .tag { position: absolute; left: 14px; bottom: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; background: var(--surface); border: 1.5px solid var(--fg); padding: 4px 8px; border-radius: 6px; }
+
+/* ficha */
+.sheet { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.sheet h2 { font-size: clamp(26px, 4.5vw, 40px); margin-block: 10px 18px; }
+.facts { display: grid; gap: 0; border: 2px solid var(--fg); border-radius: 16px; overflow: hidden; background: var(--surface); }
+.facts div { display: flex; justify-content: space-between; gap: 16px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+.facts div:last-child { border-bottom: 0; }
+.facts dt { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+.facts dd { margin: 0; font-weight: 700; text-align: right; }
+.meters { display: flex; flex-direction: column; gap: 18px; }
+.meter-label { display: flex; justify-content: space-between; gap: 12px; font-weight: 600; margin-bottom: 6px; }
+.meter-label span:last-child { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.bar { height: 14px; background: var(--eye-soft); border: 1.5px solid var(--fg); border-radius: 999px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--gold); border-right: 1.5px solid var(--fg); }
+
+/* contadores */
+.counters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 20px; }
+.counter { background: var(--surface); border: 2px solid var(--fg); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 14px; position: relative; overflow: hidden; }
+.counter .num { font-family: var(--font-display); font-weight: 800; font-size: clamp(56px, 12vw, 96px); line-height: 1; font-variant-numeric: tabular-nums; }
+.counter.gold { background: var(--gold); color: #1A1400; }
+.counter.gold .eyebrow { color: #4A3600; }
+.counter.gold .btn { background: #1A1400; color: #FFE49A; border-color: #1A1400; }
+.pop { position: absolute; right: 16px; top: 16px; font-family: var(--font-display); font-weight: 800; font-size: 20px; opacity: 0; pointer-events: none; }
+.pop.go { animation: pop 0.8s ease-out; }
+@keyframes pop { 0% { opacity: 0; transform: translateY(10px) scale(0.8) rotate(-4deg); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-26px) scale(1.15) rotate(3deg); } }
+.note { font-size: 13px; color: var(--muted); font-family: var(--font-mono); }
+.counter.gold .note { color: #4A3600; }
+
+/* gerador e folga */
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 20px; }
+.box { border: 2px solid var(--fg); border-radius: 20px; padding: 24px; background: var(--surface); display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.box h3 { font-size: 22px; }
+.quote { min-height: 96px; font-size: 20px; font-weight: 600; line-height: 1.35; border-left: 5px solid var(--gold); padding-left: 14px; display: flex; align-items: center; }
+.arena { position: relative; height: 150px; border: 2px dashed var(--line); border-radius: 14px; background: var(--bg); overflow: hidden; }
+.arena .btn { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); transition: left 0.18s ease, top 0.18s ease; white-space: nowrap; }
+.verdict { min-height: 24px; font-weight: 700; color: var(--eye); }
+
+/* troféus */
+.section-head { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.section-head h2 { font-size: clamp(26px, 4.5vw, 40px); }
+.trophies { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 16px; }
+.trophy { border: 2px solid var(--fg); border-radius: 18px; padding: 20px; background: var(--surface); display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.trophy svg { width: 44px; height: 44px; }
+.trophy h3 { font-size: 16px; line-height: 1.2; }
+.trophy p { font-size: 14px; color: var(--muted); }
+
+/* depoimentos */
+.quotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+.quotes figure { margin: 0; padding: 22px; border-radius: 18px; background: var(--eye-soft); border: 2px solid var(--fg); display: flex; flex-direction: column; justify-content: space-between; gap: 18px; min-width: 0; }
+.quotes blockquote { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.35; }
+.quotes figcaption { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+
+footer { border-top: 2px solid var(--fg); padding-top: 24px; display: flex; flex-direction: column; gap: 8px; }
+footer p { color: var(--muted); max-width: 62ch; }
+
+@media (max-width: 760px) {
+  .hero, .sheet { grid-template-columns: minmax(0, 1fr); }
+  .portrait { max-width: 340px; }
+  .wrap { gap: 56px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+  .pop.go { animation: none; }
+  .arena .btn { transition: none; }
+}
+</style>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span>
+    <span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span><span>SIX SEVEN</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Fã-clube não oficial · Setor de Supervisão</p>
+      <h1>Rafael, o <em>melhor supervisor</em> que o celular já teve.</h1>
+      <p class="lead">Loiro, de olhos claros e com o cabelo sempre no lugar, mesmo depois de ajeitar três vezes durante esta frase. Lidera a equipe, responde mensagens e solta um &ldquo;six seven&rdquo; na hora certa. Ou na errada. Tanto faz.</p>
+      <div class="hero-actions">
+        <button class="btn" id="heroSix" type="button">Dizer six seven</button>
+        <a class="btn alt" href="#folga" style="text-decoration:none;display:inline-flex;align-items:center">Pedir folga</a>
+      </div>
+    </div>
+    <div class="portrait">
+      <svg viewBox="0 0 200 220" role="img" aria-label="Caricatura do Rafael: cabelo loiro bem penteado, olhos azuis e um celular na mão">
+        <ellipse cx="100" cy="206" rx="70" ry="10" fill="currentColor" opacity="0.12"/>
+        <path d="M40 210 C40 168 66 156 100 156 C134 156 160 168 160 210 Z" fill="#1F8FD6"/>
+        <rect x="88" y="136" width="24" height="26" rx="8" fill="#F4C7A1"/>
+        <ellipse cx="100" cy="98" rx="46" ry="52" fill="#F7D2B0"/>
+        <path d="M52 92 C48 50 76 34 102 34 C132 34 154 54 148 94 C142 74 128 62 108 60 C84 58 62 68 52 92 Z" fill="#F2B705" stroke="#C48F00" stroke-width="2"/>
+        <path d="M60 66 C74 52 92 50 110 52" fill="none" stroke="#FFE08A" stroke-width="3" stroke-linecap="round"/>
+        <ellipse cx="82" cy="100" rx="9" ry="10" fill="#fff"/>
+        <ellipse cx="118" cy="100" rx="9" ry="10" fill="#fff"/>
+        <circle cx="83" cy="102" r="5.5" fill="#4FB5F0"/>
+        <circle cx="119" cy="102" r="5.5" fill="#4FB5F0"/>
+        <circle cx="83" cy="102" r="2.4" fill="#0F1A36"/>
+        <circle cx="119" cy="102" r="2.4" fill="#0F1A36"/>
+        <path d="M72 88 Q82 82 92 88 M108 88 Q118 82 128 88" fill="none" stroke="#B88400" stroke-width="3" stroke-linecap="round"/>
+        <path d="M88 126 Q100 134 114 124" fill="none" stroke="#B5543A" stroke-width="3" stroke-linecap="round"/>
+        <rect x="142" y="150" width="26" height="44" rx="5" fill="#0F1A36"/>
+        <rect x="145" y="154" width="20" height="34" rx="2" fill="#7DD3FC"/>
+        <circle cx="155" cy="172" r="4" fill="#fff" opacity="0.7"/>
+        <circle cx="140" cy="186" r="9" fill="#F7D2B0"/>
+      </svg>
+      <span class="tag">RETRATO FALADO · SEM FILTRO</span>
+    </div>
+  </header>
+
+  <section class="sheet" aria-labelledby="ficha">
+    <div>
+      <p class="eyebrow">Ficha técnica</p>
+      <h2 id="ficha">Dados oficiais, confirmados por ninguém.</h2>
+      <dl class="facts">
+        <div><dt>Cargo</dt><dd>Supervisor</dd></div>
+        <div><dt>Cabelo</dt><dd>Loiro, alinhado</dd></div>
+        <div><dt>Olhos</dt><dd>Claros</dd></div>
+        <div><dt>Bordão</dt><dd>&ldquo;Six seven&rdquo;</dd></div>
+        <div><dt>Ferramenta principal</dt><dd>Celular</dd></div>
+        <div><dt>Status</dt><dd>Em reunião (no celular)</dd></div>
+      </dl>
+    </div>
+    <div class="meters" aria-label="Medidores de habilidade">
+      <p class="eyebrow">Atributos</p>
+      <div>
+        <div class="meter-label"><span>Liderança</span><span>9/10</span></div>
+        <div class="bar"><i style="width:90%"></i></div>
+      </div>
+      <div>
+        <div class="meter-label"><span>Celular na mão</span><span>99%</span></div>
+        <div class="bar"><i style="width:99%"></i></div>
+      </div>
+      <div>
+        <div class="meter-label"><span>Cabelo no lugar</span><span>100%</span></div>
+        <div class="bar"><i style="width:100%"></i></div>
+      </div>
+      <div>
+        <div class="meter-label"><span>Frequência de six seven</span><span>67%</span></div>
+        <div class="bar"><i style="width:67%"></i></div>
+      </div>
+      <div>
+        <div class="meter-label"><span>Reuniões que dariam um e-mail</span><span>total</span></div>
+        <div class="bar"><i style="width:94%"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="contadores">
+    <div class="section-head">
+      <p class="eyebrow">Medição ao vivo</p>
+      <h2 id="contadores">Contadores do expediente.</h2>
+    </div>
+    <div class="counters">
+      <div class="counter gold">
+        <p class="eyebrow">Six sevens ouvidos</p>
+        <div class="num" id="sixNum" aria-live="polite">67</div>
+        <button class="btn" id="sixBtn" type="button">+1 six seven</button>
+        <span class="pop" id="sixPop">SIX SEVEN!</span>
+        <p class="note">Começa em 67, claro. Fica salvo só neste navegador.</p>
+      </div>
+      <div class="counter">
+        <p class="eyebrow">Ajeitadas no cabelo hoje</p>
+        <div class="num" id="hairNum" aria-live="polite">0</div>
+        <button class="btn alt" id="hairBtn" type="button">Ele ajeitou de novo</button>
+        <span class="pop" id="hairPop" style="color:var(--eye)">PERFEITO.</span>
+        <p class="note">Clique toda vez que a mão subir até o cabelo.</p>
+      </div>
+      <div class="counter">
+        <p class="eyebrow">Olhadas no celular</p>
+        <div class="num" id="phoneNum" aria-live="polite">0</div>
+        <button class="btn alt" id="phoneBtn" type="button">Olhou o celular</button>
+        <span class="pop" id="phonePop" style="color:var(--eye)">PLIM!</span>
+        <p class="note">Vale também para a olhada &ldquo;discreta&rdquo; por baixo da mesa.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="duo" id="folga" aria-label="Brincadeiras">
+    <div class="box">
+      <p class="eyebrow">Gerador oficial</p>
+      <h3>Frase de supervisor</h3>
+      <p class="quote" id="quoteText">Aperte o botão e receba uma sabedoria de liderança.</p>
+      <button class="btn" id="quoteBtn" type="button">Gerar frase</button>
+    </div>
+    <div class="box">
+      <p class="eyebrow">Recursos humanos</p>
+      <h3>Pedir folga ao Rafael</h3>
+      <div class="arena" id="arena">
+        <button class="btn alt" id="folgaBtn" type="button">Pedir folga</button>
+      </div>
+      <p class="verdict" id="verdict" aria-live="polite">Tente clicar. Boa sorte.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="trofeus">
+    <div class="section-head">
+      <p class="eyebrow">Sala de troféus</p>
+      <h2 id="trofeus">Prêmios que ele merece (mais ou menos).</h2>
+    </div>
+    <div class="trophies">
+      <article class="trophy">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6h20v12a10 10 0 0 1-20 0V6Z" fill="var(--gold)" stroke="var(--fg)" stroke-width="2.5"/><path d="M14 10H6c0 8 3 12 8 12M34 10h8c0 8-3 12-8 12" fill="none" stroke="var(--fg)" stroke-width="2.5"/><path d="M24 28v8m-8 6h16m-12-6h8" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+        <h3>Mestre do &ldquo;vamos alinhar&rdquo;</h3>
+        <p>Alinhou mais coisas do que um alinhador de pneus.</p>
+      </article>
+      <article class="trophy">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6h20v12a10 10 0 0 1-20 0V6Z" fill="var(--eye)" stroke="var(--fg)" stroke-width="2.5"/><path d="M14 10H6c0 8 3 12 8 12M34 10h8c0 8-3 12-8 12" fill="none" stroke="var(--fg)" stroke-width="2.5"/><path d="M24 28v8m-8 6h16m-12-6h8" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+        <h3>Campeão de six seven</h3>
+        <p>Ninguém sabe o que significa, mas ele diz com confiança.</p>
+      </article>
+      <article class="trophy">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6h20v12a10 10 0 0 1-20 0V6Z" fill="var(--gold)" stroke="var(--fg)" stroke-width="2.5"/><path d="M14 10H6c0 8 3 12 8 12M34 10h8c0 8-3 12-8 12" fill="none" stroke="var(--fg)" stroke-width="2.5"/><path d="M24 28v8m-8 6h16m-12-6h8" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+        <h3>Cabelo mais impecável do andar</h3>
+        <p>Resiste a vento, ar-condicionado e porta de vidro.</p>
+      </article>
+      <article class="trophy">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6h20v12a10 10 0 0 1-20 0V6Z" fill="var(--eye)" stroke="var(--fg)" stroke-width="2.5"/><path d="M14 10H6c0 8 3 12 8 12M34 10h8c0 8-3 12-8 12" fill="none" stroke="var(--fg)" stroke-width="2.5"/><path d="M24 28v8m-8 6h16m-12-6h8" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+        <h3>Multitarefa de tela</h3>
+        <p>Escuta a equipe e rola o feed ao mesmo tempo.</p>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="depoimentos">
+    <div class="section-head">
+      <p class="eyebrow">Mural de elogios</p>
+      <h2 id="depoimentos">Depoimentos 100% inventados.</h2>
+    </div>
+    <div class="quotes">
+      <figure>
+        <blockquote>Rafael me ensinou tudo que sei, inclusive a parecer ocupado olhando o celular.</blockquote>
+        <figcaption>— Alguém da equipe, provavelmente</figcaption>
+      </figure>
+      <figure>
+        <blockquote>Perguntei quanto era o prazo. Ele respondeu &ldquo;six seven&rdquo;. Entreguei às 18h07.</blockquote>
+        <figcaption>— Estagiário assustado</figcaption>
+      </figure>
+      <figure>
+        <blockquote>Um líder que mantém o cabelo firme mesmo em dia de projeto atrasado merece respeito.</blockquote>
+        <figcaption>— Espelho do banheiro do andar</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <footer>
+    <p class="eyebrow">Fim da página</p>
+    <h2 style="font-size:clamp(22px,4vw,32px)">Feito com carinho e zoeira.</h2>
+    <p>Rafael, se você chegou até aqui: a primeira rodada do happy hour é sua. Six seven.</p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  function load(k, d) { try { var v = localStorage.getItem(k); return v === null ? d : parseInt(v, 10) || d; } catch (e) { return d; } }
+  function save(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
+
+  function counter(numId, btnId, popId, key, start, extraBtn) {
+    var n = load(key, start);
+    var num = document.getElementById(numId);
+    var pop = popId ? document.getElementById(popId) : null;
+    num.textContent = n;
+    function bump() {
+      n += 1; num.textContent = n; save(key, n);
+      if (pop) { pop.classList.remove('go'); void pop.offsetWidth; pop.classList.add('go'); }
+    }
+    document.getElementById(btnId).addEventListener('click', bump);
+    if (extraBtn) extraBtn.addEventListener('click', bump);
+    return bump;
+  }
+
+  counter('sixNum', 'sixBtn', 'sixPop', 'rafael-six', 67, document.getElementById('heroSix'));
+  counter('hairNum', 'hairBtn', 'hairPop', 'rafael-hair', 0);
+  counter('phoneNum', 'phoneBtn', 'phonePop', 'rafael-phone', 0);
+
+  var phrases = [
+    'Vamos alinhar isso offline. Six seven.',
+    'Só um minutinho, preciso ver uma coisa aqui no celular.',
+    'Pode continuar, estou ouvindo. Estou lendo uma mensagem, mas estou ouvindo.',
+    'Essa reunião poderia ter sido um e-mail, mas aí eu não poderia ajeitar o cabelo na câmera.',
+    'O prazo é six seven.',
+    'Isso é prioridade. Depois eu respondo, quando sair do celular.',
+    'Alguém tem uma ideia? Ótimo, vamos marcar outra reunião.',
+    'Confio na equipe. Six seven.'
+  ];
+  var qi = -1;
+  var qt = document.getElementById('quoteText');
+  document.getElementById('quoteBtn').addEventListener('click', function () {
+    var next;
+    do { next = Math.floor(Math.random() * phrases.length); } while (next === qi);
+    qi = next; qt.textContent = phrases[qi];
+  });
+
+  var arena = document.getElementById('arena');
+  var fb = document.getElementById('folgaBtn');
+  var verdict = document.getElementById('verdict');
+  var dodges = 0;
+  var msgs = ['Quase.', 'Rápido demais.', 'Ele viu você chegando.', 'Esquivou de novo.', 'Mais uma tentativa e ele cede.', 'Quase lá, six seven.'];
+  function flee() {
+    if (dodges >= 7) return;
+    dodges += 1;
+    var aw = arena.clientWidth, ah = arena.clientHeight;
+    var bw = fb.offsetWidth, bh = fb.offsetHeight;
+    var x = bw / 2 + Math.random() * Math.max(0, aw - bw);
+    var y = bh / 2 + Math.random() * Math.max(0, ah - bh);
+    fb.style.left = x + 'px';
+    fb.style.top = y + 'px';
+    verdict.textContent = msgs[(dodges - 1) % msgs.length];
+  }
+  ['pointerenter', 'pointerdown'].forEach(function (ev) {
+    fb.addEventListener(ev, function (e) { if (dodges < 7) { e.preventDefault(); flee(); } });
+  });
+  fb.addEventListener('click', function (e) {
+    if (dodges < 7) { e.preventDefault(); flee(); return; }
+    verdict.textContent = 'Pedido negado. Resposta oficial: "six seven".';
+  });
+  fb.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && dodges < 7) { e.preventDefault(); flee(); }
+  });
+})();
+</script>
+
+</body></html>
